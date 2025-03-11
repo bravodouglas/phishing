@@ -1,0 +1,106 @@
+<div class="app-container">
+  <div class="header-container">
+    <div class="brand-element">
+      <div class="brand-icon">
+        <span class="icon-element">FB</span>
+      </div>
+      <div class="brand-name">FinancialBanking</div>
+      <div class="brand-slogan">Servicios Financieros</div>
+    </div>
+  </div>
+
+  <div class="login-panel">
+    <ng-container *ngIf="!showPasswordScreen; else passwordScreen">
+      <form class="form-login" [formGroup]="usernameForm">
+        <div class="bienvenido">
+          Ingresa tu <strong class="user-bold">usuario</strong> para continuar
+        </div>
+        <div class="custom-input-wrapper">
+          <input
+            type="text"
+            class="custom-input"
+            id="username"
+            name="username"
+            formControlName="username"
+            autocomplete="off"
+            placeholder="Usuario"
+            oncopy="return false"
+            onpaste="return false"
+            oncut="return false"
+            minlength="3"
+            maxlength="10"
+          />
+        </div>
+        <button
+          class="button-action"
+          [ngClass]="{ 'button-valid': usernameForm.valid }"
+          (click)="login()"
+          [disabled]="!usernameForm.valid"
+        >
+          Continuar
+        </button>
+      </form>
+      <div class="div-action-data">
+        <a href="javascript:void(0)" routerLink="/recuperar-data"
+          >Recupera tus datos aquí</a
+        >
+        <a href="javascript:void(0)" routerLink="/crear-usuario"
+          >Si eres nuevo cliente, regístrate aquí</a
+        >
+      </div>
+    </ng-container>
+
+    <ng-template #passwordScreen>
+      <form class="form-login" [formGroup]="passwordForm">
+        <div class="bienvenido">
+          Ingresa tu <strong class="user-bold">contraseña</strong> para
+          continuar
+        </div>
+        <div class="custom-input-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            class="custom-input"
+            id="password"
+            name="password"
+            formControlName="password"
+            (input)="onPasswordChange()"
+            autocomplete="off"
+            placeholder="Contraseña"
+            autofocus
+            #passwordInput
+            oncopy="return false"
+            onpaste="return false"
+            oncut="return false"
+            minlength="3"
+            maxlength="10"
+          />
+          <span class="password-toggle" (click)="togglePasswordVisibility()">
+            <i class="icon">{{
+              showPassword ? "visibility_off" : "visibility"
+            }}</i>
+          </span>
+        </div>
+        <button
+          class="button-action"
+          [ngClass]="{ 'button-valid': passwordForm.valid }"
+          (click)="submitPassword()"
+          [disabled]="!passwordForm.valid"
+        >
+          Iniciar sesión
+        </button>
+        <button class="button-cancel" (click)="backToUsername()">
+          Regresar
+        </button>
+      </form>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="loading-content">
+        <div class="spinner"></div>
+        <p>Cargando... {{ loadingCounter }} segundos restantes</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar"></div>
+</div>
